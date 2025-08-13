@@ -3,11 +3,21 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { DB_NAME } from "./constants.js";
 import connectdb from "./db/index.js";
-
-connectdb();
+import app from "./app.js";
 dotenv.config({
   path: "./env",
 });
+
+connectdb()
+  .then(() => {
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`server is runnning at port : ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("MONGODB CONNECTION FALIED", err);
+  });
+
 // import express from "express"
 // const app =express()
 // ;(async()=>{
